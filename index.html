@@ -5,7 +5,7 @@
   <title>POC Map Dashboard</title>
   <meta charset="UTF-8">
 
-  <!-- Leaflet CSS -->
+  
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
   <style>
@@ -36,20 +36,20 @@
   <div id="stats">Loading stats...</div>
   <div id="map"></div>
 
-  <!-- Leaflet JS -->
+
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-  <!-- Heatmap Plugin -->
+  
   <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
 
-  <!-- Your Data -->
+
   <script src="data.js"></script>
 
   <script>
-    // 🔥 Ensure script runs after everything loads
+    
     document.addEventListener("DOMContentLoaded", function () {
 
-      // ❌ Safety check
+      
       if (typeof locations === "undefined") {
         alert("Error: data.js not loaded");
         return;
@@ -57,16 +57,14 @@
 
       console.log("Data Loaded:", locations);
 
-      // ✅ Create Map
+    
       const map = L.map('map').setView([23.1765, 75.7885], 5);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap'
       }).addTo(map);
 
-      // =========================
-      // 📍 MARKER LAYER
-      // =========================
+     
       const markerLayer = L.layerGroup();
 
       locations.forEach(loc => {
@@ -85,9 +83,7 @@
 
       markerLayer.addTo(map);
 
-      // =========================
-      // 🔥 HEATMAP LAYER
-      // =========================
+    
       const maxPurchase = Math.max(...locations.map(l => l.purchases));
 
       const heatData = locations.map(loc => [
@@ -103,9 +99,7 @@
         minOpacity: 0.4
       });
 
-      // =========================
-      // 🔘 TOGGLE BUTTON
-      // =========================
+     
       let isHeat = false;
 
       const toggleControl = L.control({ position: 'topright' });
@@ -137,9 +131,7 @@
 
       toggleControl.addTo(map);
 
-      // =========================
-      // 📊 STATS
-      // =========================
+      
       let totalUsage = 0;
       let totalPurchases = 0;
 
