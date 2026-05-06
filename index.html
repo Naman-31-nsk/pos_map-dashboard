@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>POC Map Dashboard</title>
+  <meta charset="UTF-8">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+    }
+
+    h2 {
+      padding: 10px;
+    }
+
+    #stats {
+      padding: 10px;
+      background: #f4f4f4;
+      font-weight: bold;
+    }
+
+    #map {
+      height: 85vh;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Product Usage Dashboard</h2>
+  <div id="stats">Loading stats...</div>
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Heatmap Plugin -->
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+  <!-- Your Data -->
+  <script src="data.js"></script>
+
+  <script>
+    // 🔥 Ensure script runs after everything loads
+    document.addEventListener("DOMContentLoaded", function () {
+
+      // ❌ Safety check
+      if (typeof locations === "undefined") {
+        alert("Error: data.js not loaded");
+        return;
+      }
+
+      console.log("Data Loaded:", locations);
+
+      // ✅ Create Map
+      const map = L.map('map').setView([23.1765, 75.7885], 5);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+      // =========================
+      // 📍 MARKER LAYER
+      // =========================
+      const markerLayer = L.layerGroup();
+
+      locations.forEach(loc => {
+        const conversion = ((loc.purchases / loc.usage) * 100).toFixed(1);
+
+        const marker = L.marker([loc.lat, loc.lng])
+          .bindPopup(`
+          <b>${loc.city}</b><br>
+          Usage: ${loc.usage}<br>
+          Purchases: ${loc.purchases}<br>
+          Conversion: ${conversion}%
+        `);
+
+        markerLayer.addLayer(marker);
+      });
+
+      markerLayer.addTo(map);
+
+      // =========================
+      // 🔥 HEATMAP LAYER
+      // =========================
+      const maxPurchase = Math.max(...locations.map(l => l.purchases));
+
+      const heatData = locations.map(loc => [
+        loc.lat,
+        loc.lng,
+        loc.purchases / maxPurchase
+      ]);
+
+      const heatLayer = L.heatLayer(heatData, {
+        radius: 40,
+        blur: 25,
+        maxZoom: 10,
+        minOpacity: 0.4
+      });
+
+      // =========================
+      // 🔘 TOGGLE BUTTON
+      // =========================
+      let isHeat = false;
+
+      const toggleControl = L.control({ position: 'topright' });
+
+      toggleControl.onAdd = function () {
+        const div = L.DomUtil.create('div');
+
+        div.innerHTML = "🔥 Heatmap";
+        div.style.background = "white";
+        div.style.padding = "8px";
+        div.style.cursor = "pointer";
+        div.style.border = "1px solid #ccc";
+
+        div.onclick = function () {
+          if (!isHeat) {
+            map.removeLayer(markerLayer);
+            map.addLayer(heatLayer);
+            div.innerHTML = "📍 Pins";
+          } else {
+            map.removeLayer(heatLayer);
+            map.addLayer(markerLayer);
+            div.innerHTML = "🔥 Heatmap";
+          }
+          isHeat = !isHeat;
+        };
+
+        return div;
+      };
+
+      toggleControl.addTo(map);
+
+      // =========================
+      // 📊 STATS
+      // =========================
+      let totalUsage = 0;
+      let totalPurchases = 0;
+
+      locations.forEach(loc => {
+        totalUsage += loc.usage;
+        totalPurchases += loc.purchases;
+      });
+
+      document.getElementById("stats").innerHTML =
+        `Total Usage: ${totalUsage} | Total Purchases: ${totalPurchases}`;
+    });
+  </script>
+
+</body>
+
+</html>

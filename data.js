@@ -1,0 +1,22 @@
+const locations = [
+  { city: "Ujjain", lat: 23.1765, lng: 75.7885, usage: 120, purchases: 45 },
+  { city: "Delhi", lat: 28.6139, lng: 77.2090, usage: 300, purchases: 150 },
+  { city: "Mumbai", lat: 19.0760, lng: 72.8777, usage: 250, purchases: 100 },
+  { city: "Bangalore", lat: 12.9716, lng: 77.5946, usage: 200, purchases: 90 },
+  { city: "Hyderabad", lat: 17.3850, lng: 78.4867, usage: 180, purchases: 80 },
+  { city: "Chennai", lat: 13.0827, lng: 80.2707, usage: 160, purchases: 70 },
+  { city: "Kolkata", lat: 22.5726, lng: 88.3639, usage: 220, purchases: 110 },
+  { city: "Pune", lat: 18.5204, lng: 73.8567, usage: 140, purchases: 60 },
+  { city: "Ahmedabad", lat: 23.0225, lng: 72.5714, usage: 170, purchases: 85 },
+  { city: "Jaipur", lat: 26.9124, lng: 75.7873, usage: 130, purchases: 55 },
+  { city: "Lucknow", lat: 26.8467, lng: 80.9462, usage: 150, purchases: 65 },
+  { city: "Bhopal", lat: 23.2599, lng: 77.4126, usage: 110, purchases: 50 },
+  { city: "Indore", lat: 22.7196, lng: 75.8577, usage: 190, purchases: 95 },
+  { city: "Nagpur", lat: 21.1458, lng: 79.0882, usage: 125, purchases: 60 },
+  { city: "Surat", lat: 21.1702, lng: 72.8311, usage: 210, purchases: 105 },
+  { city: "Kanpur", lat: 26.4499, lng: 80.3319, usage: 135, purchases: 60 },
+  { city: "Patna", lat: 25.5941, lng: 85.1376, usage: 145, purchases: 70 },
+  { city: "Ranchi", lat: 23.3441, lng: 85.3096, usage: 100, purchases: 40 },
+  { city: "Chandigarh", lat: 30.7333, lng: 76.7794, usage: 155, purchases: 75 },
+  { city: "Guwahati", lat: 26.1445, lng: 91.7362, usage: 90, purchases: 35 }
+];
